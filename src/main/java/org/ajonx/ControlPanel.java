@@ -2,6 +2,7 @@ package org.ajonx;
 
 import org.ajonx.generation.MazeGenerator;
 import org.ajonx.generation.dfs.DepthFirstSearch;
+import org.ajonx.generation.kruskal.Kruskal;
 import org.ajonx.generation.prims.Prims;
 
 import javax.swing.*;
@@ -95,6 +96,7 @@ public class ControlPanel extends JPanel {
 		generatorDropdown = new JComboBox<>();
 		generatorDropdown.addItem(new DepthFirstSearch(maze, mazePanel, delaySlider.getValue(), frame));
 		generatorDropdown.addItem(new Prims(maze, mazePanel, delaySlider.getValue(), frame));
+		generatorDropdown.addItem(new Kruskal(maze, mazePanel, delaySlider.getValue(), frame));
 		generatorDropdown.setRenderer(new DefaultListCellRenderer() {
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 				if (value instanceof MazeGenerator gen) {
