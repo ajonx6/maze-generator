@@ -1,4 +1,4 @@
-package org.ajonx.search.dfs;
+package org.ajonx.search.astar;
 
 import org.ajonx.Maze;
 import org.ajonx.MazePanel;
@@ -6,26 +6,24 @@ import org.ajonx.search.Path;
 import org.ajonx.search.SearchAlgorithm;
 import org.ajonx.search.SearchAlgorithmStyles;
 import org.ajonx.search.bfs.BFSDialogBox;
-import org.ajonx.search.bfs.BFSStyles;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.Queue;
 
-public class DFS extends SearchAlgorithm {
+public class AStar extends SearchAlgorithm {
 	private static final List<Integer> DIRS_TO_CHECK = Arrays.asList(Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT);
 
-	private Stack<Path> toCheck = new Stack<>();
+	private PriorityQueue<Path> toCheck = new PriorityQueue<>(Comparator.comparingInt(p -> p.cost(width - 1, height - 1)));
 	private Path previous = null;
 	private boolean[] seen;
-	private DFSStyles styles;
+	private AStarStyles styles;
 
-	public DFS(Maze maze, MazePanel mazePanel, int delayMs, JFrame frame) {
+	public AStar(Maze maze, MazePanel mazePanel, int delayMs, JFrame frame) {
 		super(maze, mazePanel, delayMs);
-		this.styles = (DFSStyles) createStyles();
-		this.dialogBox = new DFSDialogBox(frame, styles);
+		this.styles = (AStarStyles) createStyles();
+		this.dialogBox = new AStarDialogBox(frame, styles);
 	}
 
 	public void prepare() {
@@ -48,8 +46,9 @@ public class DFS extends SearchAlgorithm {
 			colorCells(previous.point.x, previous.point.y, styles.getSeenCellFloor(), styles.getSeenCellWall());
 		}
 
-		Path path = toCheck.pop();
+		Path path = toCheck.poll();
 		if (path == null) return false;
+		seen[path.point.x + path.point.y * width] = true;
 		previous = path;
 		colorCells(path.point.x, path.point.y, styles.getCurrentCellFloor(), styles.getCurrentCellWall());
 
@@ -64,9 +63,8 @@ public class DFS extends SearchAlgorithm {
 					return true;
 				}
 
-				seen[nx + ny * width] = true;
 				colorCells(nx, ny, styles.getQueuedCellFloor(), styles.getQueuedCellWall());
-				toCheck.push(newPath);
+				toCheck.add(newPath);
 			}
 		}
 
@@ -105,10 +103,10 @@ public class DFS extends SearchAlgorithm {
 	}
 
 	public SearchAlgorithmStyles createStyles() {
-		return new DFSStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0x000000, 0xebab34, 0x000000);
+		return new AStarStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0x000000, 0xebab34, 0x000000);
 	}
 
 	public String getName() {
-		return "DFS";
+		return "A*";
 	}
 }

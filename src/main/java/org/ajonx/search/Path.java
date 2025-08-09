@@ -13,4 +13,12 @@ public class Path {
 		this.path = new ArrayList<>(path);
 		if (prev != null) this.path.add(prev);
 	}
+
+	public int size() {
+		return 1 + path.size();
+	}
+
+	public int cost(int ex, int ey) {
+		return size() + Math.abs(point.x - ex) + Math.abs(point.y + ey);
+	}
 }

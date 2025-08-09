@@ -65,6 +65,8 @@ public class Maze {
 	// Returns the 3x3 pixels for a particular cell
 	public int[] getCellPixels(int x, int y) {
 		int[] cell = new int[BLOCK_SIZE * BLOCK_SIZE];
+		if (grid[x + y * width] == 0) return cell;
+
 		Arrays.fill(cell, wallColor[x + y * width]);
 		cell[4] = floorColor[x + y * width];
 

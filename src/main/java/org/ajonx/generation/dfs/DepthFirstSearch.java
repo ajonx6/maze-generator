@@ -53,7 +53,7 @@ public class DepthFirstSearch extends MazeGenerator {
 			int ny = current.y + directions[dirIndex][1];
 
 			if (inbounds(nx, ny) && !seen[nx + ny * width]) {
-				colorCells(nx, ny, styles.getCandidateCellWall(), styles.getCandidateCellFloor());
+				colorCells(nx, ny, styles.getCandidateCellFloor(), styles.getCandidateCellWall());
 				if (done) continue;
 
 				seen[nx + ny * width] = true;

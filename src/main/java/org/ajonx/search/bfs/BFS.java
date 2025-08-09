@@ -2,10 +2,12 @@ package org.ajonx.search.bfs;
 
 import org.ajonx.Maze;
 import org.ajonx.MazePanel;
+import org.ajonx.generation.prims.PrimsDialogBox;
 import org.ajonx.search.Path;
 import org.ajonx.search.SearchAlgorithm;
 import org.ajonx.search.SearchAlgorithmStyles;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -18,13 +20,16 @@ public class BFS extends SearchAlgorithm {
 	private boolean[] seen;
 	private BFSStyles styles;
 
-	public BFS(Maze maze, MazePanel mazePanel, int delayMs) {
+	public BFS(Maze maze, MazePanel mazePanel, int delayMs, JFrame frame) {
 		super(maze, mazePanel, delayMs);
 		this.styles = (BFSStyles) createStyles();
+		this.dialogBox = new BFSDialogBox(frame, styles);
 	}
 
-	public void prepare(int seed) {
-		super.prepare(seed);
+	public void prepare() {
+		super.prepare();
+
+		maze.clearColors();
 
 		seen = new boolean[width * height];
 		toCheck.clear();
@@ -70,8 +75,10 @@ public class BFS extends SearchAlgorithm {
 		maze.clearColors();
 
 		boolean previousIsEnd = previous.point.x == width - 1 && previous.point.y == height - 1;
-		int floorColor = previousIsEnd ? styles.getPathCellFloor() : styles.getSeenCellFloor();
-		int wallColor = previousIsEnd ? styles.getPathCellWall() : styles.getSeenCellWall();
+		if (!previousIsEnd) return;
+
+		int floorColor = styles.getPathCellFloor();
+		int wallColor = styles.getPathCellWall();
 		colorCells(previous.point.x, previous.point.y, floorColor, wallColor);
 		for (Point p : previous.path) {
 			colorCells(p.x, p.y, floorColor, wallColor);
@@ -97,5 +104,9 @@ public class BFS extends SearchAlgorithm {
 
 	public SearchAlgorithmStyles createStyles() {
 		return new BFSStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0x000000, 0xebab34, 0x000000);
+	}
+
+	public String getName() {
+		return "BFS";
 	}
 }

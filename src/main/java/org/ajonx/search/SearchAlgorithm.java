@@ -2,19 +2,20 @@ package org.ajonx.search;
 
 import org.ajonx.Maze;
 import org.ajonx.MazePanel;
+import org.ajonx.generation.MazeGeneratorDialogBox;
 
 import javax.swing.*;
 import java.util.Random;
 
 public abstract class SearchAlgorithm {
 	protected int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
-	protected Random random = new Random();
 
 	protected Maze maze;
 	protected MazePanel mazePanel;
 
 	protected Timer timer;
 	protected int width, height;
+	protected SearchAlgorithmDialogBox dialogBox;
 
 	public SearchAlgorithm(Maze maze, MazePanel mazePanel, int delayMs) {
 		this.maze = maze;
@@ -30,25 +31,23 @@ public abstract class SearchAlgorithm {
 		});
 	}
 
-	public void prepare(int seed) {
+	public void prepare() {
 		width = maze.getWidth();
 		height = maze.getHeight();
-		random.setSeed(seed);
 	}
 
-	public int start(int seed) {
+	public void start() {
 		if (timer.isRunning()) timer.stop();
-
-		int seedToUse = seed >= 0 ? seed : random.nextInt();
-		prepare(seedToUse);
+		prepare();
 		if (timer.getDelay() == 0) stepAll();
 		else timer.start();
-
-		return seedToUse;
 	}
 
 	public void stop() {
-		if (timer.isRunning()) timer.stop();
+		if (timer.isRunning()) {
+			timer.stop();
+			end();
+		}
 	}
 
 	public boolean toggle() {
@@ -64,6 +63,9 @@ public abstract class SearchAlgorithm {
 	public void setDelay(int delayMs) {
 		timer.setDelay(delayMs);
 	}
+	public SearchAlgorithmDialogBox getDialogBox() {
+		return dialogBox;
+	}
 
 	public abstract boolean step();
 
@@ -72,4 +74,6 @@ public abstract class SearchAlgorithm {
 	public abstract void end();
 
 	public abstract SearchAlgorithmStyles createStyles();
+
+	public abstract String getName();
 }

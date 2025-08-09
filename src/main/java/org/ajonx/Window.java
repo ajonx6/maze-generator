@@ -16,7 +16,7 @@ public class Window {
 	private MazePanel mazePanel;
 	// Panel to fill the rest of the window
 	private MazeWrapperPanel mazeWrapperPanel;
-	private ControlPanel controlPanel;
+	private SettingsPanel settingsPanel;
 
 	public Window() {
 		createUI();
@@ -41,11 +41,11 @@ public class Window {
 		mazeWrapperPanel = new MazeWrapperPanel(mazePanel);
 		mazeWrapperPanel.setBackground(Color.WHITE);
 
-		controlPanel = new ControlPanel(maze, frame, mazePanel);
+		settingsPanel = new SettingsPanel(maze, frame, mazePanel);
 
 		frame.setLayout(new BorderLayout());
 		frame.add(mazeWrapperPanel, BorderLayout.CENTER);
-		frame.add(controlPanel, BorderLayout.EAST);
+		frame.add(settingsPanel, BorderLayout.EAST);
 
 		frame.setVisible(true);
 	}
