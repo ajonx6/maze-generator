@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 public class KruskalDialogBox extends MazeGeneratorDialogBox {
 	private JPanel mainPanel;
-
 	private KruskalStyles styles;
 
 	public KruskalDialogBox(Frame owner, KruskalStyles styles) {
@@ -32,33 +31,23 @@ public class KruskalDialogBox extends MazeGeneratorDialogBox {
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		ColorPreviewRow colorRow1 = createColorRow("Current cell floor:", styles.getCurrentCellFloor(), c -> styles.setCurrentCellFloor(c.getRGB()));
+		ColorPreviewRow colorRow1 = createColorRow("Breaking wall cell floor:", styles.getWillConnectCellFloor(), c -> styles.setWillConnectCellFloor(c.getRGB()));
 		mainPanel.add(colorRow1.panel, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		ColorPreviewRow colorRow2 = createColorRow("Current cell wall:", styles.getCurrentCellWall(), c -> styles.setCurrentCellWall(c.getRGB()));
+		ColorPreviewRow colorRow2 = createColorRow("Breaking wall cell wall:", styles.getWillConnectCellWall(), c -> styles.setWillConnectCellWall(c.getRGB()));
 		mainPanel.add(colorRow2.panel, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		ColorPreviewRow colorRow3 = createColorRow("Candidate cell floor:", styles.getCandidateCellFloor(), c -> styles.setCandidateCellFloor(c.getRGB()));
+		ColorPreviewRow colorRow3 = createColorRow("Rejecting wall cell floor:", styles.getWontConnectCellFloor(), c -> styles.setWontConnectCellFloor(c.getRGB()));
 		mainPanel.add(colorRow3.panel, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		ColorPreviewRow colorRow4 = createColorRow("Candidate cell wall:", styles.getCandidateCellWall(), c -> styles.setCandidateCellWall(c.getRGB()));
+		ColorPreviewRow colorRow4 = createColorRow("Rejecting wall cell wall:", styles.getWontConnectCellWall(), c -> styles.setWontConnectCellWall(c.getRGB()));
 		mainPanel.add(colorRow4.panel, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		ColorPreviewRow colorRow5 = createColorRow("Backtrack cell floor:", styles.getBacktrackFloor(), c -> styles.setBacktrackFloor(c.getRGB()));
-		mainPanel.add(colorRow5.panel, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		ColorPreviewRow colorRow6 = createColorRow("Backtrack cell wall:", styles.getBacktrackWall(), c -> styles.setBacktrackWall(c.getRGB()));
-		mainPanel.add(colorRow6.panel, gbc);
 
 		add(mainPanel, BorderLayout.CENTER);
 
@@ -111,20 +100,5 @@ public class KruskalDialogBox extends MazeGeneratorDialogBox {
 		colorRow.add(cpb, gbc);
 
 		return new ColorPreviewRow(colorRow, cpb);
-	}
-
-	private static class MyMouseAdapter extends MouseAdapter {
-		private final ColorPreviewBox cpb;
-
-		public MyMouseAdapter(ColorPreviewBox cpb) {
-			this.cpb = cpb;
-		}
-
-		public void mouseClicked(MouseEvent e) {
-			Color chosen = JColorChooser.showDialog(cpb, "Choose a color", cpb.getColor());
-			if (chosen != null) {
-				cpb.setColor(chosen);
-			}
-		}
 	}
 }

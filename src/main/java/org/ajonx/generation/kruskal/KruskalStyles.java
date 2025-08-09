@@ -3,67 +3,47 @@ package org.ajonx.generation.kruskal;
 import org.ajonx.generation.MazeGeneratorStyles;
 
 public class KruskalStyles implements MazeGeneratorStyles {
-	private int currentCellFloor;
-	private int currentCellWall;
-	private int candidateCellFloor;
-	private int candidateCellWall;
-	private int backtrackFloor;
-	private int backtrackWall;
+	private int willConnectCellFloor;
+	private int willConnectCellWall;
+	private int wontConnectCellFloor;
+	private int wontConnectCellWall;
 
-	public KruskalStyles(int currentCellFloor, int currentCellWall, int candidateCellFloor, int candidateCellWall, int backtrackFloor, int backtrackWall) {
-		this.currentCellFloor = currentCellFloor;
-		this.currentCellWall = currentCellWall;
-		this.candidateCellFloor = candidateCellFloor;
-		this.candidateCellWall = candidateCellWall;
-		this.backtrackFloor = backtrackFloor;
-		this.backtrackWall = backtrackWall;
+	public KruskalStyles(int willConnectCellFloor, int willConnectCellWall, int wontConnectCellFloor, int wontConnectCellWall) {
+		this.willConnectCellFloor = willConnectCellFloor;
+		this.willConnectCellWall = willConnectCellWall;
+		this.wontConnectCellFloor = wontConnectCellFloor;
+		this.wontConnectCellWall = wontConnectCellWall;
 	}
 
-	public int getCurrentCellFloor() {
-		return currentCellFloor;
+	public int getWillConnectCellFloor() {
+		return willConnectCellFloor;
 	}
 
-	public void setCurrentCellFloor(int currentCellFloor) {
-		this.currentCellFloor = currentCellFloor;
+	public void setWillConnectCellFloor(int willConnectCellFloor) {
+		this.willConnectCellFloor = willConnectCellFloor;
 	}
 
-	public int getCurrentCellWall() {
-		return currentCellWall;
+	public int getWillConnectCellWall() {
+		return willConnectCellWall;
 	}
 
-	public void setCurrentCellWall(int currentCellWall) {
-		this.currentCellWall = currentCellWall;
+	public void setWillConnectCellWall(int willConnectCellWall) {
+		this.willConnectCellWall = willConnectCellWall;
 	}
 
-	public int getCandidateCellFloor() {
-		return candidateCellFloor;
+	public int getWontConnectCellFloor() {
+		return wontConnectCellFloor;
 	}
 
-	public void setCandidateCellFloor(int candidateCellFloor) {
-		this.candidateCellFloor = candidateCellFloor;
+	public void setWontConnectCellFloor(int wontConnectCellFloor) {
+		this.wontConnectCellFloor = wontConnectCellFloor;
 	}
 
-	public int getCandidateCellWall() {
-		return candidateCellWall;
+	public int getWontConnectCellWall() {
+		return wontConnectCellWall;
 	}
 
-	public void setCandidateCellWall(int candidateCellWall) {
-		this.candidateCellWall = candidateCellWall;
-	}
-
-	public int getBacktrackFloor() {
-		return backtrackFloor;
-	}
-
-	public void setBacktrackFloor(int backtrackFloor) {
-		this.backtrackFloor = backtrackFloor;
-	}
-
-	public int getBacktrackWall() {
-		return backtrackWall;
-	}
-
-	public void setBacktrackWall(int backtrackWall) {
-		this.backtrackWall = backtrackWall;
+	public void setWontConnectCellWall(int wontConnectCellWall) {
+		this.wontConnectCellWall = wontConnectCellWall;
 	}
 }

@@ -3,6 +3,7 @@ package org.ajonx.generation.dfs;
 import org.ajonx.Maze;
 import org.ajonx.MazePanel;
 import org.ajonx.generation.MazeGenerator;
+import org.ajonx.generation.MazeGeneratorStyles;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -11,18 +12,17 @@ import java.util.List;
 import java.util.Stack;
 
 public class DepthFirstSearch extends MazeGenerator {
-	private int[] grid;
+	private static final List<Integer> DIRS_TO_CHECK = Arrays.asList(Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT);
+
 	private boolean[] seen;
-	private final Stack<Point> stack = new Stack<>();
-	private final DepthFirstSearchStyles styles;
+	private Stack<Point> stack = new Stack<>();
+
+	private int[] grid;
+	private DepthFirstSearchStyles styles;
 
 	public DepthFirstSearch(Maze maze, MazePanel mazePanel, int delayMs, Frame frame) {
-		super(maze,
-			  mazePanel,
-			  delayMs,
-			  new DepthFirstSearchStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0xff0000)
-		);
-		this.styles = (DepthFirstSearchStyles) super.styles;
+		super(maze, mazePanel, delayMs);
+		this.styles = (DepthFirstSearchStyles) createStyles();
 		this.dialogBox = new DepthFirstSearchDialogBox(frame, styles);
 	}
 
@@ -44,18 +44,16 @@ public class DepthFirstSearch extends MazeGenerator {
 		maze.clearColors();
 
 		Point current = stack.peek();
-		List<Integer> dirsToCheck = Arrays.asList(Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT);
-		Collections.shuffle(dirsToCheck, random);
+		Collections.shuffle(DIRS_TO_CHECK, random);
 
 		boolean pickedDir = false;
 		boolean done = false;
-		for (int dirIndex : dirsToCheck) {
+		for (int dirIndex : DIRS_TO_CHECK) {
 			int nx = current.x + directions[dirIndex][0];
 			int ny = current.y + directions[dirIndex][1];
 
-			if (nx >= 0 && ny >= 0 && nx < width && ny < height && !seen[nx + ny * width]) {
-				maze.setWallColor(nx, ny, styles.getCandidateCellFloor());
-				maze.setFloorColor(nx, ny, styles.getCandidateCellWall());
+			if (inbounds(nx, ny) && !seen[nx + ny * width]) {
+				colorCells(nx, ny, styles.getCandidateCellWall(), styles.getCandidateCellFloor());
 				if (done) continue;
 
 				seen[nx + ny * width] = true;
@@ -73,16 +71,19 @@ public class DepthFirstSearch extends MazeGenerator {
 		}
 
 		if (!pickedDir) {
-			maze.setFloorColor(current.x, current.y, styles.getBacktrackFloor());
-			maze.setWallColor(current.x, current.y, styles.getBacktrackWall());
+			colorCells(current.x, current.y, styles.getBacktrackFloor(), styles.getBacktrackWall());
 			stack.pop();
 		} else {
-			maze.setFloorColor(current.x, current.y, styles.getCurrentCellFloor());
-			maze.setWallColor(current.x, current.y, styles.getCurrentCellWall());
+			colorCells(current.x, current.y, styles.getCurrentCellFloor(), styles.getCurrentCellWall());
 		}
 
 		maze.setGrid(grid);
 		return false;
+	}
+
+	private void colorCells(int x, int y, int floorColor, int wallColor) {
+		maze.setFloorColor(x, y, floorColor);
+		maze.setWallColor(x, y, wallColor);
 	}
 
 	public void stepAll() {
@@ -93,6 +94,10 @@ public class DepthFirstSearch extends MazeGenerator {
 		maze.clearColors();
 		maze.setFloorColor(0, 0, 0x00ff00);
 		maze.setFloorColor(width - 1, height - 1, 0xff0000);
+	}
+
+	public MazeGeneratorStyles createStyles() {
+		return new DepthFirstSearchStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0xff0000);
 	}
 
 	public String getName() {

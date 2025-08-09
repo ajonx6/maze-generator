@@ -4,6 +4,9 @@ import org.ajonx.generation.MazeGenerator;
 import org.ajonx.generation.dfs.DepthFirstSearch;
 import org.ajonx.generation.kruskal.Kruskal;
 import org.ajonx.generation.prims.Prims;
+import org.ajonx.search.SearchAlgorithm;
+import org.ajonx.search.bfs.BFS;
+import org.ajonx.search.dfs.DFS;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -19,6 +22,7 @@ public class ControlPanel extends JPanel {
 	private final MazePanel mazePanel;
 	private MazeGenerator currentGenerator;
 
+	private JLabel generatorTitle;
 	private JComboBox<MazeGenerator> generatorDropdown;
 	private JButton openStylesButton;
 	private JTextField mazeWidthInput;
@@ -29,7 +33,10 @@ public class ControlPanel extends JPanel {
 	private JLabel seedLabel;
 	private JButton startButton;
 	private JButton animationStateButton;
-	private boolean animationStopped = false;
+
+	private JLabel searchTitle;
+	public JButton searchBFS;
+	public JButton searchDFS;
 
 	private final DocumentFilter digitsOnlyFilter = new DocumentFilter() {
 		@Override
@@ -68,6 +75,9 @@ public class ControlPanel extends JPanel {
 		gbc.weightx = 1.0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.anchor = GridBagConstraints.CENTER;
+
+		generatorTitle = new JLabel("Generator Settings");
+		generatorTitle.setFont(generatorTitle.getFont().deriveFont(Font.BOLD));
 
 		mazeWidthInput = new JTextField("50", 3);
 		((AbstractDocument) mazeWidthInput.getDocument()).setDocumentFilter(digitsOnlyFilter);
@@ -161,9 +171,29 @@ public class ControlPanel extends JPanel {
 			frame.repaint();
 		});
 
+		searchTitle = new JLabel("Search Settings");
+		searchTitle.setFont(searchTitle.getFont().deriveFont(Font.BOLD));
+
+		searchBFS = new JButton("Search BFS");
+		searchBFS.addActionListener(e -> {
+			BFS bfs = new BFS(maze, mazePanel, delaySlider.getValue());
+			frame.repaint();
+			bfs.start(-1);
+		});
+
+		searchDFS = new JButton("Search DFS");
+		searchDFS.addActionListener(e -> {
+			DFS dfs = new DFS(maze, mazePanel, delaySlider.getValue());
+			frame.repaint();
+			dfs.start(-1);
+		});
+
 		int gridy = 0;
 		gbc.gridy = gridy++;
 		gbc.insets = new Insets(5, 10, 0, 10);
+		add(generatorTitle, gbc);
+
+		gbc.gridy = gridy++;
 		add(new JLabel("Algorithm:"), gbc);
 
 		gbc.gridy = gridy++;
@@ -203,14 +233,24 @@ public class ControlPanel extends JPanel {
 		add(seedLabel, gbc);
 
 		gbc.gridy = gridy++;
-		gbc.insets = new Insets(5, 10, 10, 10);
 		add(seedInput, gbc);
 
 		gbc.gridy = gridy++;
 		add(startButton, gbc);
 
+		gbc.insets = new Insets(5, 10, 20, 10);
 		gbc.gridy = gridy++;
 		add(animationStateButton, gbc);
+
+		gbc.gridy = gridy++;
+		gbc.insets = new Insets(5, 10, 0, 10);
+		add(searchTitle, gbc);
+
+		gbc.gridy = gridy++;
+		add(searchBFS, gbc);
+
+		gbc.gridy = gridy++;
+		add(searchDFS, gbc);
 
 		gbc.gridy = gridy++;
 		gbc.weighty = 1.0;

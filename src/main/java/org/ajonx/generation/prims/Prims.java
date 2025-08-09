@@ -3,25 +3,24 @@ package org.ajonx.generation.prims;
 import org.ajonx.Maze;
 import org.ajonx.MazePanel;
 import org.ajonx.generation.MazeGenerator;
+import org.ajonx.generation.MazeGeneratorStyles;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
 public class Prims extends MazeGenerator {
-	private int[] grid;
+	private static final List<Integer> DIRS_TO_CHECK = Arrays.asList(Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT);
+
+	private List<Point> frontier = new ArrayList<>();
 	private boolean[] seen;
-	private final List<Point> frontier = new ArrayList<>();
-	private final List<Integer> dirsToCheck = Arrays.asList(Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT);
-	private final PrimsStyles styles;
+
+	private int[] grid;
+	private PrimsStyles styles;
 
 	public Prims(Maze maze, MazePanel mazePanel, int delayMs, Frame frame) {
-		super(maze,
-			  mazePanel,
-			  delayMs,
-			  new PrimsStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0xff0000)
-		);
-		this.styles = (PrimsStyles) super.styles;
+		super(maze, mazePanel, delayMs);
+		this.styles = (PrimsStyles) createStyles();
 		this.dialogBox = new PrimsDialogBox(frame, styles);
 	}
 
@@ -51,14 +50,13 @@ public class Prims extends MazeGenerator {
 		Point current = frontier.remove(random.nextInt(frontier.size()));
 
 		List<Integer> dirsVisited = new ArrayList<>();
-		for (int dirIndex : dirsToCheck) {
+		for (int dirIndex : DIRS_TO_CHECK) {
 			int nx = current.x + directions[dirIndex][0];
 			int ny = current.y + directions[dirIndex][1];
 			if (inbounds(nx, ny) && seen[nx + ny * width]) dirsVisited.add(dirIndex);
 		}
 		if (dirsVisited.isEmpty()) {
-			maze.setFloorColor(current.x, current.y, styles.getBacktrackFloor());
-			maze.setWallColor(current.x, current.y, styles.getBacktrackWall());
+			colorCells(current.x, current.y, styles.getBacktrackFloor(), styles.getBacktrackWall());
 			return false;
 		}
 
@@ -70,7 +68,7 @@ public class Prims extends MazeGenerator {
 		grid[current.x + current.y * width] |= 1 << dirIndexToConnect;
 		grid[px + py * width] |= 1 << (dirIndexToConnect ^ 1);
 
-		for (int dirIndex : dirsToCheck) {
+		for (int dirIndex : DIRS_TO_CHECK) {
 			int nx = current.x + directions[dirIndex][0];
 			int ny = current.y + directions[dirIndex][1];
 			if (inbounds(nx, ny) && !seen[nx + ny * width]) {
@@ -79,17 +77,16 @@ public class Prims extends MazeGenerator {
 			}
 		}
 
-		maze.setFloorColor(current.x, current.y, styles.getCurrentCellFloor());
-		maze.setWallColor(current.x, current.y, styles.getCurrentCellFloor());
-		maze.setFloorColor(px, py, styles.getCandidateCellFloor());
-		maze.setWallColor(px, py, styles.getCandidateCellWall());
+		colorCells(current.x, current.y, styles.getCurrentCellFloor(), styles.getCurrentCellWall());
+		colorCells(px, py, styles.getCandidateCellFloor(), styles.getCandidateCellWall());
 
 		maze.setGrid(grid);
 		return false;
 	}
 
-	public boolean inbounds(int x, int y) {
-		return x >= 0 && y >= 0 && x < width && y < height;
+	private void colorCells(int x, int y, int floorColor, int wallColor) {
+		maze.setFloorColor(x, y, floorColor);
+		maze.setWallColor(x, y, wallColor);
 	}
 
 	public void stepAll() {
@@ -100,6 +97,10 @@ public class Prims extends MazeGenerator {
 		maze.clearColors();
 		maze.setFloorColor(0, 0, 0x00ff00);
 		maze.setFloorColor(width - 1, height - 1, 0xff0000);
+	}
+
+	public MazeGeneratorStyles createStyles() {
+		return new PrimsStyles(0x00ff00, 0x00ff00, 0x0000ff, 0x0000ff, 0xff0000, 0xff0000);
 	}
 
 	public String getName() {

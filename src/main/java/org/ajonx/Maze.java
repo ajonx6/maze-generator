@@ -22,6 +22,27 @@ public class Maze {
 		resize();
 	}
 
+	public boolean isConnected(int x1, int y1, int x2, int y2) {
+		int state1 = grid[x1 + y1 * width];
+		int state2 = grid[x2 + y2 * width];
+		int dx = x2 - x1;
+		int dy = y2 - y1;
+
+		boolean connected = false;
+
+		if (dx == 0 && dy == -1) {
+			connected = (((state1 >> UP) & 1) == 1) && (((state2 >> DOWN) & 1) == 1);
+		} else if (dx == 0 && dy == 1) {
+			connected = (((state1 >> DOWN) & 1) == 1) && (((state2 >> UP) & 1) == 1);
+		} else if (dx == -1 && dy == 0) {
+			connected = (((state1 >> LEFT) & 1) == 1) && (((state2 >> RIGHT) & 1) == 1);
+		} else if (dx == 1 && dy == 0) {
+			connected = (((state1 >> RIGHT) & 1) == 1) && (((state2 >> LEFT) & 1) == 1);
+		}
+
+		return connected;
+	}
+
 	public void resize() {
 		this.grid = new int[width * height];
 		this.floorColor = new int[width * height];

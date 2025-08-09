@@ -1,14 +1,12 @@
-package org.ajonx.generation;
+package org.ajonx.search;
 
 import org.ajonx.Maze;
 import org.ajonx.MazePanel;
-import org.ajonx.generation.prims.Prims;
-import org.xml.sax.HandlerBase;
 
 import javax.swing.*;
 import java.util.Random;
 
-public abstract class MazeGenerator {
+public abstract class SearchAlgorithm {
 	protected int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
 	protected Random random = new Random();
 
@@ -17,16 +15,18 @@ public abstract class MazeGenerator {
 
 	protected Timer timer;
 	protected int width, height;
-	protected MazeGeneratorDialogBox dialogBox;
 
-	public MazeGenerator(Maze maze, MazePanel mazePanel, int delayMs) {
+	public SearchAlgorithm(Maze maze, MazePanel mazePanel, int delayMs) {
 		this.maze = maze;
 		this.mazePanel = mazePanel;
 		timer = new Timer(delayMs, null);
 		timer.addActionListener(_ -> {
 			boolean done = step();
 			mazePanel.repaint();
-			if (done) timer.stop();
+			if (done) {
+				timer.stop();
+				end();
+			}
 		});
 	}
 
@@ -65,19 +65,11 @@ public abstract class MazeGenerator {
 		timer.setDelay(delayMs);
 	}
 
-	public boolean inbounds(int x, int y) {
-		return x >= 0 && y >= 0 && x < width && y < height;
-	}
-
-	public MazeGeneratorDialogBox getDialogBox() {
-		return dialogBox;
-	}
-
 	public abstract boolean step();
 
 	public abstract void stepAll();
 
-	public abstract MazeGeneratorStyles createStyles();
+	public abstract void end();
 
-	public abstract String getName();
+	public abstract SearchAlgorithmStyles createStyles();
 }

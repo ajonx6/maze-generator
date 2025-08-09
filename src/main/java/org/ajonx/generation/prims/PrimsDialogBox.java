@@ -113,19 +113,4 @@ public class PrimsDialogBox extends MazeGeneratorDialogBox {
 
 		return new ColorPreviewRow(colorRow, cpb);
 	}
-
-	private static class MyMouseAdapter extends MouseAdapter {
-		private final ColorPreviewBox cpb;
-
-		public MyMouseAdapter(ColorPreviewBox cpb) {
-			this.cpb = cpb;
-		}
-
-		public void mouseClicked(MouseEvent e) {
-			Color chosen = JColorChooser.showDialog(cpb, "Choose a color", cpb.getColor());
-			if (chosen != null) {
-				cpb.setColor(chosen);
-			}
-		}
-	}
 }
