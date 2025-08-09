@@ -55,11 +55,14 @@
 ##### Kruskal complete
 ![Kruskal complete](/screenshots/kruskal_done.png)
 ###
+##### Zoom and pan
+![Zoom and pan](/screenshots/zoom_pan.png)
+###
 ##### Styling for search algorithm
 ![Styling for search algorithm](/screenshots/show_styling.png)
 ###
 ##### A* in progress
 ![A* in progress](/screenshots/search_in_progress.png)
 ###
-##### Zoom and pan
-![Zoom and pan](/screenshots/zoom_pan.png)
+##### Completed search
+![Zoom and pan](/screenshots/completed_search.png)
