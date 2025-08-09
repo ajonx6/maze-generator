@@ -46,7 +46,6 @@ public class DepthFirstSearch extends MazeGenerator {
 		Point current = stack.peek();
 		Collections.shuffle(DIRS_TO_CHECK, random);
 
-		boolean pickedDir = false;
 		boolean done = false;
 		for (int dirIndex : DIRS_TO_CHECK) {
 			int nx = current.x + directions[dirIndex][0];
@@ -65,12 +64,11 @@ public class DepthFirstSearch extends MazeGenerator {
 					stack.push(new Point(nx, ny));
 				}
 
-				pickedDir = true;
 				done = true;
 			}
 		}
 
-		if (!pickedDir) {
+		if (!done) {
 			colorCells(current.x, current.y, styles.getBacktrackFloor(), styles.getBacktrackWall());
 			stack.pop();
 		} else {

@@ -2,6 +2,7 @@ package org.ajonx.search.dfs;
 
 import org.ajonx.ColorPreviewBox;
 import org.ajonx.search.SearchAlgorithmDialogBox;
+import org.ajonx.search.astar.AStarDialogBox;
 import org.ajonx.search.bfs.BFSStyles;
 
 import javax.swing.*;
@@ -42,32 +43,32 @@ public class DFSDialogBox extends SearchAlgorithmDialogBox {
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		ColorPreviewRow colorRow3 = createColorRow("Rejecting wall cell floor:", styles.getQueuedCellFloor(), c -> styles.setQueuedCellFloor(c.getRGB()));
+		ColorPreviewRow colorRow3 = createColorRow("Queued cell floor:", styles.getQueuedCellFloor(), c -> styles.setQueuedCellFloor(c.getRGB()));
 		mainPanel.add(colorRow3.panel, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		ColorPreviewRow colorRow4 = createColorRow("Rejecting wall cell wall:", styles.getQueuedCellWall(), c -> styles.setQueuedCellWall(c.getRGB()));
+		ColorPreviewRow colorRow4 = createColorRow("Queued cell wall:", styles.getQueuedCellWall(), c -> styles.setQueuedCellWall(c.getRGB()));
 		mainPanel.add(colorRow4.panel, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		ColorPreviewRow colorRow5 = createColorRow("Rejecting wall cell floor:", styles.getSeenCellFloor(), c -> styles.setSeenCellFloor(c.getRGB()));
+		ColorPreviewRow colorRow5 = createColorRow("Seen cell floor:", styles.getSeenCellFloor(), c -> styles.setSeenCellFloor(c.getRGB()));
 		mainPanel.add(colorRow5.panel, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		ColorPreviewRow colorRow6 = createColorRow("Rejecting wall cell wall:", styles.getSeenCellWall(), c -> styles.setSeenCellWall(c.getRGB()));
+		ColorPreviewRow colorRow6 = createColorRow("Seen cell wall:", styles.getSeenCellWall(), c -> styles.setSeenCellWall(c.getRGB()));
 		mainPanel.add(colorRow6.panel, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		ColorPreviewRow colorRow7 = createColorRow("Rejecting wall cell floor:", styles.getPathCellFloor(), c -> styles.setPathCellFloor(c.getRGB()));
+		ColorPreviewRow colorRow7 = createColorRow("Path cell floor:", styles.getPathCellFloor(), c -> styles.setPathCellFloor(c.getRGB()));
 		mainPanel.add(colorRow7.panel, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 3;
-		ColorPreviewRow colorRow8 = createColorRow("Rejecting wall cell wall:", styles.getPathCellWall(), c -> styles.setPathCellWall(c.getRGB()));
+		ColorPreviewRow colorRow8 = createColorRow("Path cell wall:", styles.getPathCellWall(), c -> styles.setPathCellWall(c.getRGB()));
 		mainPanel.add(colorRow8.panel, gbc);
 
 		add(mainPanel, BorderLayout.CENTER);
