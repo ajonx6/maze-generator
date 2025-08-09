@@ -9,6 +9,11 @@ public class SettingsPanel extends JPanel {
 	private final MazePanel mazePanel;
 
 	private JTabbedPane tabbedPane;
+	private JPanel generatorSettings;
+	private JPanel searchSettings;
+	private JPanel resetTransformPanel;
+	private JButton resetZoom;
+	private JButton resetTranslation;
 
 	public SettingsPanel(Maze maze, JFrame frame, MazePanel mazePanel) {
 		this.maze = maze;
@@ -19,15 +24,27 @@ public class SettingsPanel extends JPanel {
 	}
 
 	public void createUI() {
+		setLayout(new BorderLayout());
+
 		tabbedPane = new JTabbedPane();
 
-		JPanel generatorSettings = new GeneratorSettingsPanel(maze, frame, mazePanel);
+		generatorSettings = new GeneratorSettingsPanel(maze, frame, mazePanel);
 		tabbedPane.addTab("Generator", generatorSettings);
 
-		JPanel searchSettings = new SearchSettingsPanel(maze, frame, mazePanel);
+		searchSettings = new SearchSettingsPanel(maze, frame, mazePanel);
 		tabbedPane.addTab("Search", searchSettings);
 
-		setLayout(new BorderLayout());
+		resetTransformPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+		resetZoom = new JButton("Reset zoom");
+		resetZoom.addActionListener(_ -> mazePanel.setZoom(1.0));
+		resetTransformPanel.add(resetZoom);
+
+		resetTranslation = new JButton("Reset offset");
+		resetTranslation.addActionListener(_ -> mazePanel.setOffset(0.0, 0.0));
+		resetTransformPanel.add(resetTranslation);
+
 		add(tabbedPane, BorderLayout.CENTER);
+		add(resetTransformPanel, BorderLayout.SOUTH);
 	}
 }

@@ -2,18 +2,61 @@ package org.ajonx;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 public class MazePanel extends JPanel {
 	private final Maze maze;
 
+	private double zoom = 1.0;
+	private double offsetX = 0.0;
+	private double offsetY = 0.0;
+	private int lastDragX = 0;
+	private int lastDragY = 0;
+
 	public MazePanel(Maze maze) {
 		this.maze = maze;
+
+		addMouseWheelListener(e -> {
+			if (!maze.hasGenerated()) return;
+			double scaleFactor = 1.1;
+			if (e.getPreciseWheelRotation() < 0) {
+				zoom *= scaleFactor;
+			} else {
+				zoom /= scaleFactor;
+			}
+			zoom = Math.max(0.2, Math.min(4.0, zoom));
+			repaint();
+		});
+
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (!maze.hasGenerated()) return;
+				lastDragX = e.getX();
+				lastDragY = e.getY();
+			}
+		});
+
+		addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				if (!maze.hasGenerated()) return;
+				offsetX += e.getX() - lastDragX;
+				offsetY += e.getY() - lastDragY;
+				lastDragX = e.getX();
+				lastDragY = e.getY();
+				repaint();
+			}
+		});
 	}
 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
+		g2d.translate(offsetX, offsetY);
+		g2d.scale(zoom, zoom);
 
 		if (!maze.hasGenerated()) {
 			g2d.setColor(Color.BLACK);
@@ -68,5 +111,16 @@ public class MazePanel extends JPanel {
 		}
 
 		g2d.dispose();
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
+		repaint();
+	}
+
+	public void setOffset(double x, double y) {
+		this.offsetX = x;
+		this.offsetY = y;
+		repaint();
 	}
 }
