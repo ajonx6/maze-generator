@@ -1,8 +1,7 @@
 package org.ajonx.search.bfs;
 
 import org.ajonx.Maze;
-import org.ajonx.MazePanel;
-import org.ajonx.generation.prims.PrimsDialogBox;
+import org.ajonx.ui.MazePanel;
 import org.ajonx.search.Path;
 import org.ajonx.search.SearchAlgorithm;
 import org.ajonx.search.SearchAlgorithmStyles;

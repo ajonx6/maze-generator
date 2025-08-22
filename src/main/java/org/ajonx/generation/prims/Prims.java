@@ -1,7 +1,7 @@
 package org.ajonx.generation.prims;
 
 import org.ajonx.Maze;
-import org.ajonx.MazePanel;
+import org.ajonx.ui.MazePanel;
 import org.ajonx.generation.MazeGenerator;
 import org.ajonx.generation.MazeGeneratorStyles;
 

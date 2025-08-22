@@ -1,4 +1,6 @@
-package org.ajonx;
+package org.ajonx.ui;
+
+import org.ajonx.Maze;
 
 import javax.swing.*;
 import java.awt.*;

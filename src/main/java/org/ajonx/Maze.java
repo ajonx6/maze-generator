@@ -1,7 +1,11 @@
 package org.ajonx;
 
-import java.util.Arrays;
-import java.util.Random;
+import org.ajonx.search.Path;
+import org.ajonx.ui.heatmap.HeatmapStyles;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class Maze {
 	public static final int UP = 0;
@@ -16,9 +20,12 @@ public class Maze {
 	private int[] wallColor;
 	private boolean hasGenerated = false;
 
+	private HeatmapStyles heatmapStyles;
+
 	public Maze(int width, int height) {
 		this.width = width;
 		this.height = height;
+		this.heatmapStyles = new HeatmapStyles(0x00ff00, 0xffff00, 0xff0000);
 		resize();
 	}
 
@@ -78,6 +85,64 @@ public class Maze {
 		return cell;
 	}
 
+	public void generateHeatmap() {
+		int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
+		int maxDist = 0;
+
+		int[] distances = new int[width * height];
+		Arrays.fill(distances, -1);
+		Queue<Point> toCheck = new LinkedList<>();
+		toCheck.add(new Point(width - 1, height - 1));
+		distances[(width - 1) + (height - 1) * width] = 0;
+
+		while (!toCheck.isEmpty()) {
+			Point point = toCheck.poll();
+			for (int[] dir : directions) {
+				int nx = point.x + dir[0];
+				int ny = point.y + dir[1];
+
+				if (nx < 0 || ny < 0 || nx >= width || ny >= height || distances[nx + ny * width] >= 0 || !isConnected(point.x, point.y, nx, ny)) continue;
+
+				int dist = distances[point.x + point.y * width] + 1;
+				distances[nx + ny * width] = dist;
+				if (dist > maxDist) maxDist = dist;
+
+				toCheck.add(new Point(nx, ny));
+			}
+		}
+
+		clearColors();
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				double distTotal = (double) distances[x + y * width] / (double) maxDist;
+
+				distTotal = Math.pow(distTotal, 0.9);
+
+				if (distTotal < 0.5) setFloorColor(x, y, colorLerp(heatmapStyles.getCloseColor(), heatmapStyles.getMidColor(), distTotal * 2.0));
+				else setFloorColor(x, y, colorLerp(heatmapStyles.getMidColor(), heatmapStyles.getFarColor(), (distTotal - 0.5) * 2.0));
+			}
+		}
+	}
+
+	public int colorLerp(int c1, int c2, double t) {
+		t = Math.max(0, Math.min(1, t));
+
+		int r1 = (c1 >> 16) & 0xff;
+		int g1 = (c1 >> 8) & 0xff;
+		int b1 = c1 & 0xff;
+
+		int r2 = (c2 >> 16) & 0xff;
+		int g2 = (c2 >> 8) & 0xff;
+		int b2 = c2 & 0xff;
+
+		int r3 = (int) (r1 * (1.0 - t) + r2 * t);
+		int g3 = (int) (g1 * (1.0 - t) + g2 * t);
+		int b3 = (int) (b1 * (1.0 - t) + b2 * t);
+
+		return (r3 << 16) | (g3 << 8) | b3;
+	}
+
 	public int getWidth() {
 		return width;
 	}
@@ -98,6 +163,10 @@ public class Maze {
 
 	public void setGrid(int[] grid) {
 		System.arraycopy(grid, 0, this.grid, 0, grid.length);
+	}
+
+	public HeatmapStyles getHeatmapStyles() {
+		return heatmapStyles;
 	}
 
 	public boolean hasGenerated() {

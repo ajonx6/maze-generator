@@ -1,9 +1,8 @@
 package org.ajonx.generation;
 
 import org.ajonx.Maze;
-import org.ajonx.MazePanel;
-import org.ajonx.generation.prims.Prims;
-import org.xml.sax.HandlerBase;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.MazePanel;
 
 import javax.swing.*;
 import java.util.Random;
@@ -17,7 +16,7 @@ public abstract class MazeGenerator {
 
 	protected Timer timer;
 	protected int width, height;
-	protected MazeGeneratorDialogBox dialogBox;
+	protected StylesDialogBox dialogBox;
 
 	public MazeGenerator(Maze maze, MazePanel mazePanel, int delayMs) {
 		this.maze = maze;
@@ -69,7 +68,7 @@ public abstract class MazeGenerator {
 		return x >= 0 && y >= 0 && x < width && y < height;
 	}
 
-	public MazeGeneratorDialogBox getDialogBox() {
+	public StylesDialogBox getDialogBox() {
 		return dialogBox;
 	}
 

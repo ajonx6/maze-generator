@@ -1,11 +1,10 @@
 package org.ajonx.search.dijkstra;
 
 import org.ajonx.Maze;
-import org.ajonx.MazePanel;
+import org.ajonx.ui.MazePanel;
 import org.ajonx.search.Path;
 import org.ajonx.search.SearchAlgorithm;
 import org.ajonx.search.SearchAlgorithmStyles;
-import org.ajonx.search.bfs.BFSDialogBox;
 
 import javax.swing.*;
 import java.awt.*;

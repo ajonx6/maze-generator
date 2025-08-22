@@ -1,4 +1,6 @@
-package org.ajonx;
+package org.ajonx.ui;
+
+import org.ajonx.Maze;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +11,9 @@ public class SettingsPanel extends JPanel {
 	private final MazePanel mazePanel;
 
 	private JTabbedPane tabbedPane;
-	private JPanel generatorSettings;
-	private JPanel searchSettings;
+	private GeneratorSettingsPanel generatorSettings;
+	private SearchSettingsPanel searchSettings;
+	private MiscPanel miscSettings;
 	private JPanel resetTransformPanel;
 	private JButton resetZoom;
 	private JButton resetTranslation;
@@ -28,11 +31,14 @@ public class SettingsPanel extends JPanel {
 
 		tabbedPane = new JTabbedPane();
 
-		generatorSettings = new GeneratorSettingsPanel(maze, frame, mazePanel);
+		generatorSettings = new GeneratorSettingsPanel(maze, frame, mazePanel, this);
 		tabbedPane.addTab("Generator", generatorSettings);
 
 		searchSettings = new SearchSettingsPanel(maze, frame, mazePanel);
 		tabbedPane.addTab("Search", searchSettings);
+
+		miscSettings = new MiscPanel(maze, frame, mazePanel);
+		tabbedPane.addTab("Misc.", miscSettings);
 
 		resetTransformPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -44,7 +50,33 @@ public class SettingsPanel extends JPanel {
 		resetTranslation.addActionListener(_ -> mazePanel.setOffset(0.0, 0.0));
 		resetTransformPanel.add(resetTranslation);
 
+		disableMazeComps();
+
 		add(tabbedPane, BorderLayout.CENTER);
 		add(resetTransformPanel, BorderLayout.SOUTH);
+	}
+
+	public void enableMazeComps() {
+		for (JComponent comp : generatorSettings.activeOnMazeGen) {
+			comp.setEnabled(true);
+		}
+		for (JComponent comp : searchSettings.activeOnMazeGen) {
+			comp.setEnabled(true);
+		}
+		for (JComponent comp : miscSettings.activeOnMazeGen) {
+			comp.setEnabled(true);
+		}
+	}
+
+	public void disableMazeComps() {
+		for (JComponent comp : generatorSettings.activeOnMazeGen) {
+			comp.setEnabled(false);
+		}
+		for (JComponent comp : searchSettings.activeOnMazeGen) {
+			comp.setEnabled(false);
+		}
+		for (JComponent comp : miscSettings.activeOnMazeGen) {
+			comp.setEnabled(false);
+		}
 	}
 }

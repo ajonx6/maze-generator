@@ -1,7 +1,7 @@
 package org.ajonx.generation.dfs;
 
-import org.ajonx.ColorPreviewBox;
-import org.ajonx.generation.MazeGeneratorDialogBox;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.ColorPreviewBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class DepthFirstSearchDialogBox extends MazeGeneratorDialogBox {
+public class DepthFirstSearchDialogBox extends StylesDialogBox {
 	private JPanel mainPanel;
 
 	private DepthFirstSearchStyles styles;

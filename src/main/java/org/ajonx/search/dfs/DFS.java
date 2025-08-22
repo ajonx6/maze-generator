@@ -1,18 +1,15 @@
 package org.ajonx.search.dfs;
 
 import org.ajonx.Maze;
-import org.ajonx.MazePanel;
+import org.ajonx.ui.MazePanel;
 import org.ajonx.search.Path;
 import org.ajonx.search.SearchAlgorithm;
 import org.ajonx.search.SearchAlgorithmStyles;
-import org.ajonx.search.bfs.BFSDialogBox;
-import org.ajonx.search.bfs.BFSStyles;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.Queue;
 
 public class DFS extends SearchAlgorithm {
 	private static final List<Integer> DIRS_TO_CHECK = Arrays.asList(Maze.UP, Maze.DOWN, Maze.LEFT, Maze.RIGHT);

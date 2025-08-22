@@ -1,10 +1,7 @@
 package org.ajonx.search.bfs;
 
-import org.ajonx.ColorPreviewBox;
-import org.ajonx.generation.MazeGeneratorDialogBox;
-import org.ajonx.generation.kruskal.KruskalStyles;
-import org.ajonx.search.SearchAlgorithmDialogBox;
-import org.ajonx.search.astar.AStarDialogBox;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.ColorPreviewBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class BFSDialogBox extends SearchAlgorithmDialogBox {
+public class BFSDialogBox extends StylesDialogBox {
 	private JPanel mainPanel;
 	private BFSStyles styles;
 

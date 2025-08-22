@@ -1,8 +1,7 @@
 package org.ajonx.search.astar;
 
-import org.ajonx.ColorPreviewBox;
-import org.ajonx.search.SearchAlgorithmDialogBox;
-import org.ajonx.search.dijkstra.DijkstraStyles;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.ColorPreviewBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class AStarDialogBox extends SearchAlgorithmDialogBox {
+public class AStarDialogBox extends StylesDialogBox {
 	private JPanel mainPanel;
 	private AStarStyles styles;
 

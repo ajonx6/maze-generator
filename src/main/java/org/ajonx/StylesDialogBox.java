@@ -1,13 +1,13 @@
-package org.ajonx.generation;
+package org.ajonx;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class MazeGeneratorDialogBox extends JDialog {
+public abstract class StylesDialogBox extends JDialog {
 	protected final Frame owner;
 	protected JPanel buttonsPanel;
 
-	public MazeGeneratorDialogBox(Frame owner, String title) {
+	public StylesDialogBox(Frame owner, String title) {
 		super(owner, title, true);
 		this.owner = owner;
 	}
@@ -19,7 +19,6 @@ public abstract class MazeGeneratorDialogBox extends JDialog {
 		buttonsPanel.add(new JButton("Apply"));
 		add(buttonsPanel, BorderLayout.SOUTH);
 	}
-
 
 	protected void completeUI() {
 		pack();

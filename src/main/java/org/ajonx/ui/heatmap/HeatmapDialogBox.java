@@ -1,4 +1,4 @@
-package org.ajonx.search.dijkstra;
+package org.ajonx.ui.heatmap;
 
 import org.ajonx.StylesDialogBox;
 import org.ajonx.ui.ColorPreviewBox;
@@ -9,16 +9,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class DijkstraDialogBox extends StylesDialogBox {
+public class HeatmapDialogBox extends StylesDialogBox {
 	private JPanel mainPanel;
-	private DijkstraStyles styles;
+	private HeatmapStyles styles;
 
-	public DijkstraDialogBox(Frame owner, DijkstraStyles styles) {
-		super(owner, "Dijkstra");
+	public HeatmapDialogBox(Frame owner, HeatmapStyles styles) {
+		super(owner, "Heatmap");
 		this.styles = styles;
 		createUI();
 	}
-
 
 	public void createUI() {
 		setLayout(new BorderLayout());
@@ -31,43 +30,18 @@ public class DijkstraDialogBox extends StylesDialogBox {
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		ColorPreviewRow colorRow1 = createColorRow("Current cell floor:", styles.getCurrentCellFloor(), c -> styles.setCurrentCellFloor(c.getRGB()));
+		ColorPreviewRow colorRow1 = createColorRow("Close color:", styles.getCloseColor(), c -> styles.setCloseColor(c.getRGB()));
 		mainPanel.add(colorRow1.panel, gbc);
 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		ColorPreviewRow colorRow2 = createColorRow("Current cell wall:", styles.getCurrentCellWall(), c -> styles.setCurrentCellWall(c.getRGB()));
+		ColorPreviewRow colorRow2 = createColorRow("Mid color:", styles.getMidColor(), c -> styles.setMidColor(c.getRGB()));
 		mainPanel.add(colorRow2.panel, gbc);
 
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		ColorPreviewRow colorRow3 = createColorRow("Queued cell floor:", styles.getQueuedCellFloor(), c -> styles.setQueuedCellFloor(c.getRGB()));
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+		ColorPreviewRow colorRow3 = createColorRow("Far color:", styles.getFarColor(), c -> styles.setFarColor(c.getRGB()));
 		mainPanel.add(colorRow3.panel, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		ColorPreviewRow colorRow4 = createColorRow("Queued cell wall:", styles.getQueuedCellWall(), c -> styles.setQueuedCellWall(c.getRGB()));
-		mainPanel.add(colorRow4.panel, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		ColorPreviewRow colorRow5 = createColorRow("Seen cell floor:", styles.getSeenCellFloor(), c -> styles.setSeenCellFloor(c.getRGB()));
-		mainPanel.add(colorRow5.panel, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		ColorPreviewRow colorRow6 = createColorRow("Seen cell wall:", styles.getSeenCellWall(), c -> styles.setSeenCellWall(c.getRGB()));
-		mainPanel.add(colorRow6.panel, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		ColorPreviewRow colorRow7 = createColorRow("Path cell floor:", styles.getPathCellFloor(), c -> styles.setPathCellFloor(c.getRGB()));
-		mainPanel.add(colorRow7.panel, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		ColorPreviewRow colorRow8 = createColorRow("Path cell wall:", styles.getPathCellWall(), c -> styles.setPathCellWall(c.getRGB()));
-		mainPanel.add(colorRow8.panel, gbc);
 
 		add(mainPanel, BorderLayout.CENTER);
 

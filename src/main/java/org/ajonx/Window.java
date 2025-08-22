@@ -1,6 +1,9 @@
 package org.ajonx;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.ajonx.ui.MazePanel;
+import org.ajonx.ui.MazeWrapperPanel;
+import org.ajonx.ui.SettingsPanel;
 
 import javax.swing.*;
 import java.awt.*;

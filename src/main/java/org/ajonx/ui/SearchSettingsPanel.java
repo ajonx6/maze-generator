@@ -1,6 +1,6 @@
-package org.ajonx;
+package org.ajonx.ui;
 
-import org.ajonx.generation.MazeGenerator;
+import org.ajonx.Maze;
 import org.ajonx.search.SearchAlgorithm;
 import org.ajonx.search.astar.AStar;
 import org.ajonx.search.bfs.BFS;
@@ -8,14 +8,14 @@ import org.ajonx.search.dfs.DFS;
 import org.ajonx.search.dijkstra.Dijkstra;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchSettingsPanel extends JPanel {
+	public List<JComponent> activeOnMazeGen = new ArrayList<>();
+
 	private final Maze maze;
 	private final JFrame frame;
 	private final MazePanel mazePanel;
@@ -116,6 +116,7 @@ public class SearchSettingsPanel extends JPanel {
 			frame.repaint();
 			maze.hasGenerated(true);
 		});
+		activeOnMazeGen.add(startButton);
 
 		animationStateButton = new JButton("-");
 		animationStateButton.setEnabled(false);

@@ -1,8 +1,7 @@
 package org.ajonx.generation.prims;
 
-import org.ajonx.ColorPreviewBox;
-import org.ajonx.generation.MazeGeneratorDialogBox;
-import org.ajonx.generation.dfs.DepthFirstSearchStyles;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.ColorPreviewBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class PrimsDialogBox extends MazeGeneratorDialogBox {
+public class PrimsDialogBox extends StylesDialogBox {
 	private JPanel mainPanel;
 
 	private PrimsStyles styles;

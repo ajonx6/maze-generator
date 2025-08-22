@@ -1,7 +1,7 @@
 package org.ajonx.generation.kruskal;
 
-import org.ajonx.ColorPreviewBox;
-import org.ajonx.generation.MazeGeneratorDialogBox;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.ColorPreviewBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class KruskalDialogBox extends MazeGeneratorDialogBox {
+public class KruskalDialogBox extends StylesDialogBox {
 	private JPanel mainPanel;
 	private KruskalStyles styles;
 

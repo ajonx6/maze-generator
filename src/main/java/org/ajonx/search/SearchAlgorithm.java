@@ -1,11 +1,11 @@
 package org.ajonx.search;
 
 import org.ajonx.Maze;
-import org.ajonx.MazePanel;
-import org.ajonx.generation.MazeGeneratorDialogBox;
+import org.ajonx.StylesDialogBox;
+import org.ajonx.ui.MazePanel;
 
 import javax.swing.*;
-import java.util.Random;
+import javax.swing.text.Style;
 
 public abstract class SearchAlgorithm {
 	protected int[][] directions = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
@@ -15,7 +15,7 @@ public abstract class SearchAlgorithm {
 
 	protected Timer timer;
 	protected int width, height;
-	protected SearchAlgorithmDialogBox dialogBox;
+	protected StylesDialogBox dialogBox;
 
 	public SearchAlgorithm(Maze maze, MazePanel mazePanel, int delayMs) {
 		this.maze = maze;
@@ -63,7 +63,8 @@ public abstract class SearchAlgorithm {
 	public void setDelay(int delayMs) {
 		timer.setDelay(delayMs);
 	}
-	public SearchAlgorithmDialogBox getDialogBox() {
+
+	public StylesDialogBox getDialogBox() {
 		return dialogBox;
 	}
 

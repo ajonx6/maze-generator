@@ -1,4 +1,4 @@
-package org.ajonx;
+package org.ajonx.ui;
 
 import javax.swing.*;
 

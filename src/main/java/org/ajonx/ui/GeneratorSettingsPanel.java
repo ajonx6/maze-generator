@@ -1,5 +1,6 @@
-package org.ajonx;
+package org.ajonx.ui;
 
+import org.ajonx.Maze;
 import org.ajonx.generation.MazeGenerator;
 import org.ajonx.generation.dfs.DepthFirstSearch;
 import org.ajonx.generation.kruskal.Kruskal;
@@ -12,14 +13,19 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GeneratorSettingsPanel extends JPanel {
+	public List<JComponent> activeOnMazeGen = new ArrayList<>();
+
 	private final Maze maze;
 	private final JFrame frame;
 	private final MazePanel mazePanel;
-	private MazeGenerator currentGenerator;
-
+	private final SettingsPanel settingsPanel;
 	private JComboBox<MazeGenerator> generatorDropdown;
+
+	private MazeGenerator currentGenerator;
 	private JButton openStylesButton;
 	private JTextField mazeWidthInput;
 	private JTextField mazeHeightInput;
@@ -46,10 +52,11 @@ public class GeneratorSettingsPanel extends JPanel {
 		}
 	};
 
-	public GeneratorSettingsPanel(Maze maze, JFrame frame, MazePanel mazePanel) {
+	public GeneratorSettingsPanel(Maze maze, JFrame frame, MazePanel mazePanel, SettingsPanel settingsPanel) {
 		this.maze = maze;
 		this.frame = frame;
 		this.mazePanel = mazePanel;
+		this.settingsPanel = settingsPanel;
 
 		createUI();
 	}
@@ -145,6 +152,8 @@ public class GeneratorSettingsPanel extends JPanel {
 
 			int seed = currentGenerator.start(seedInput.getText().isEmpty() ? -1 : Integer.parseInt(seedInput.getText()));
 			if (seed != -1) seedLabel.setText("Seed (previous: " + seed + ")");
+
+			settingsPanel.enableMazeComps();
 
 			frame.repaint();
 			maze.hasGenerated(true);
